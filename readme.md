@@ -18,6 +18,43 @@ Git implementation
 
 # Git diff
 
-- https://github.com/driusan/dgit/issues/284
 - https://github.com/fhs/gig/issues/31
 - https://github.com/sergi/go-diff
+
+## driusan/dgit
+
+https://github.com/driusan/dgit/issues/286
+
+module is not pure Go
+
+the current description says:
+
+> A Pure Go Git Implementation 
+
+this is not true. If I run a diff, everything looks normal:
+
+~~~
+> dgit diff
+diff --git a/README.md b/README.md
+--- a/filter/README.md
++++ b/filter/README.md
+@@ -4,3 +4,5 @@
+
+ You shouldn't use it either.
+
++asdf
+~~~
+
+but then I discovered that it only works because its calling `diff` from my
+path. this is evidenced by it breaking when you clear the path:
+
+~~~
+> $env:path = ''
+> dgit diff
+diff --git a/README.md b/README.md
+~~~
+
+so not only is it not pure Go, but its calling an external executable. and to
+top it off, it fails without error.
+
+https://github.com/driusan/dgit/blob/f39f0c15/git/hashdiff.go#L81
