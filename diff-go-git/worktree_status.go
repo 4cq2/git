@@ -31,6 +31,34 @@ var (
 	ErrGlobNoMatches = errors.New("glob pattern did not match any files")
 )
 
+func (w *Worktree) diffStagingWithWorktree(reverse bool) (merkletrie.Changes, error) {
+	idx, err := w.r.Storer.Index()
+	if err != nil {
+		return nil, err
+	}
+
+	from := mindex.NewRootNode(idx)
+	submodules, err := w.getSubmodulesStatus()
+	if err != nil {
+		return nil, err
+	}
+
+	to := filesystem.NewRootNode(w.Filesystem, submodules)
+
+	var c merkletrie.Changes
+	if reverse {
+		c, err = merkletrie.DiffTree(to, from, diffTreeIsEquals)
+	} else {
+		c, err = merkletrie.DiffTree(from, to, diffTreeIsEquals)
+	}
+
+	if err != nil {
+		return nil, err
+	}
+
+	return w.excludeIgnoredChanges(c), nil
+}
+
 // Status returns the working tree status.
 func (w *Worktree) Status() (Status, error) {
 	var hash plumbing.Hash
@@ -111,34 +139,6 @@ func nameFromAction(ch *merkletrie.Change) string {
 	}
 
 	return name
-}
-
-func (w *Worktree) diffStagingWithWorktree(reverse bool) (merkletrie.Changes, error) {
-	idx, err := w.r.Storer.Index()
-	if err != nil {
-		return nil, err
-	}
-
-	from := mindex.NewRootNode(idx)
-	submodules, err := w.getSubmodulesStatus()
-	if err != nil {
-		return nil, err
-	}
-
-	to := filesystem.NewRootNode(w.Filesystem, submodules)
-
-	var c merkletrie.Changes
-	if reverse {
-		c, err = merkletrie.DiffTree(to, from, diffTreeIsEquals)
-	} else {
-		c, err = merkletrie.DiffTree(from, to, diffTreeIsEquals)
-	}
-
-	if err != nil {
-		return nil, err
-	}
-
-	return w.excludeIgnoredChanges(c), nil
 }
 
 func (w *Worktree) excludeIgnoredChanges(changes merkletrie.Changes) merkletrie.Changes {
