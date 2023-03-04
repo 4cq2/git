@@ -40,7 +40,7 @@ top it off, it fails without error.
 
 https://github.com/driusan/dgit/blob/f39f0c15/git/hashdiff.go#L81
 
-## fhs/gig
+## diff-fhs
 
 color diff
 
@@ -48,7 +48,7 @@ Does Gig have an option for color?
 
 https://github.com/fhs/gig
 
-## go-git/go-git
+## diff-go-git
 
 https://github.com/go-git/go-git/issues/700
 
