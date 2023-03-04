@@ -1,4 +1,4 @@
-package cli
+package main
 
 import (
    "fmt"
@@ -12,57 +12,35 @@ import (
    "github.com/go-git/go-git/v5/storage/filesystem"
    "github.com/go-git/go-git/v5/utils/diff"
    "github.com/sergi/go-diff/diffmatchpatch"
-   "github.com/spf13/cobra"
    "io"
    "os"
    "path/filepath"
    fdiff "github.com/go-git/go-git/v5/plumbing/format/diff"
 )
 
-// rootCmd represents the base command when called without any subcommands
-var rootCmd = &cobra.Command{
-   Use:          "gig",
-   Short:        "A git clone implemented in Go",
-   Long:         ``,
-   SilenceUsage: true,
-}
-
 // Execute adds all child commands to the root command and sets flags appropriately.
 // This is called by main.main(). It only needs to happen once to the rootCmd.
-func Execute() {
-   if err := rootCmd.Execute(); err != nil {
-      // The error seems to be already printed by cobra
-      os.Exit(1)
-   }
-}
-
-func findRepoRoot() (string, error) {
-   p, err := os.Getwd()
+func main() {
+   root, r, err := openRepo()
    if err != nil {
-      return "", err
+      panic(err)
    }
-   for {
-      _, err := os.Stat(filepath.Join(p, ".git"))
-      if err == nil {
-         return p, nil
+   args := os.Args[1:]
+   if len(args) == 1 {
+      err := diffWithCommit(
+         os.Stdout, r, root, plumbing.Revision(args[0]),
+      )
+      if err != nil {
+         panic(err)
       }
-      if !os.IsNotExist(err) {
-         return "", err
-      }
-      newp := filepath.Join(p, "..")
-      if newp == p {
-         break
-      }
-      p = newp
    }
-   return "", fmt.Errorf("fatal: not a git repository")
+   if err := diffWithIndex(os.Stdout, r, root); err != nil {
+      panic(err)
+   }
 }
 
 func openRepo() (string, *git.Repository, error) {
-   root, err := findRepoRoot()
-   if err != nil {
-      return "", nil, err
-   }
+   root := `D:\GitHub\git`
    r, err := git.Open(
       filesystem.NewStorage(
          osfs.New(filepath.Join(root, ".git")),
@@ -71,31 +49,6 @@ func openRepo() (string, *git.Repository, error) {
       osfs.New(root),
    )
    return root, r, err
-}
-func init() {
-   cmd := &cobra.Command{
-      Use:     "diff [commit]",
-      Aliases: []string{"di"},
-      Short:   "Show changes between working tree, index, commits, etc.",
-      Long: `If a commit argument is given, compare working tree with that commit.
-Otherwise, compare working tree with the index (staging area for the
-next commit).`,
-      Args: cobra.MaximumNArgs(1),
-      RunE: diffCmd,
-   }
-   rootCmd.AddCommand(cmd)
-}
-
-func diffCmd(_ *cobra.Command, args []string) error {
-   root, r, err := openRepo()
-   if err != nil {
-      return err
-   }
-
-   if len(args) == 1 {
-      return diffWithCommit(os.Stdout, r, root, plumbing.Revision(args[0]))
-   }
-   return diffWithIndex(os.Stdout, r, root)
 }
 
 func diffWithIndex(w io.Writer, r *git.Repository, root string) error {

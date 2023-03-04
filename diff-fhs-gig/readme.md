@@ -1,3 +1,7 @@
 # diff
 
-https://github.com/fhs/gig/issues/31
+color diff
+
+Does Gig have an option for color?
+
+https://github.com/fhs/gig
