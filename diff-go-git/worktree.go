@@ -5,7 +5,6 @@ import (
 	"errors"
 	"fmt"
 	"io"
-	stdioutil "io/ioutil"
 	"os"
 	"path/filepath"
 	"strings"
@@ -43,7 +42,7 @@ type Worktree struct {
 }
 
 // Pull incorporates changes from a remote repository into the current branch.
-// Returns nil if the operation is successful, NoErrAlreadyUpToDate if there are
+// Returns nil if the operation is successful, Err_Already_Up_To_Date if there are
 // no changes to be fetched, or an error.
 //
 // Pull only supports merges where the can be resolved as a fast-forward.
@@ -52,7 +51,7 @@ func (w *Worktree) Pull(o *PullOptions) error {
 }
 
 // PullContext incorporates changes from a remote repository into the current
-// branch. Returns nil if the operation is successful, NoErrAlreadyUpToDate if
+// branch. Returns nil if the operation is successful, Err_Already_Up_To_Date if
 // there are no changes to be fetched, or an error.
 //
 // Pull only supports merges where the can be resolved as a fast-forward.
@@ -82,7 +81,7 @@ func (w *Worktree) PullContext(ctx context.Context, o *PullOptions) error {
 	})
 
 	updated := true
-	if err == NoErrAlreadyUpToDate {
+	if err == Err_Already_Up_To_Date {
 		updated = false
 	} else if err != nil {
 		return err
@@ -101,7 +100,7 @@ func (w *Worktree) PullContext(ctx context.Context, o *PullOptions) error {
 		}
 
 		if !updated && headAheadOfRef {
-			return NoErrAlreadyUpToDate
+			return Err_Already_Up_To_Date
 		}
 
 		ff, err := isFastForward(w.r.Storer, head.Hash(), ref.Hash())
@@ -569,7 +568,7 @@ func (w *Worktree) checkoutFileSymlink(f *object.File) (err error) {
 
 	defer ioutil.CheckClose(from, &err)
 
-	bytes, err := stdioutil.ReadAll(from)
+	bytes, err := io.ReadAll(from)
 	if err != nil {
 		return
 	}
@@ -718,7 +717,7 @@ func (w *Worktree) readGitmodulesFile() (*config.Modules, error) {
 	}
 
 	defer f.Close()
-	input, err := stdioutil.ReadAll(f)
+	input, err := io.ReadAll(f)
 	if err != nil {
 		return nil, err
 	}
