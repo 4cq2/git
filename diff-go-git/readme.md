@@ -1,32 +1,33 @@
 # diff-go-git
 
-Diff Staging with Worktree
-
-I want to Diff Staging with Worktree. I found this:
-
-https://github.com/go-git/go-git/blob/d525a514057f97bc2b183e2c67f542dd6f0ac0aa/worktree_status.go#L116
-
-but it returns a [merkletrie.Changes][1]. To make use of that, it would need to
-be converted to [object.Changes][2]. I found function `newChanges`:
-
-https://github.com/go-git/go-git/blob/d525a514057f97bc2b183e2c67f542dd6f0ac0aa/plumbing/object/change_adaptor.go#L50
-
-but it is not public. I tried just copying the function into my code, but that
-does work as it calls another private function `newChange`:
-
-https://github.com/go-git/go-git/blob/d525a514057f97bc2b183e2c67f542dd6f0ac0aa/plumbing/object/change_adaptor.go#L14
-
-which calls another private function `newChangeEntry`:
-
-https://github.com/go-git/go-git/blob/d525a514057f97bc2b183e2c67f542dd6f0ac0aa/plumbing/object/change_adaptor.go#L29
-
-which calls a private struct `treeNoder`:
-
-https://github.com/go-git/go-git/blob/d525a514057f97bc2b183e2c67f542dd6f0ac0aa/plumbing/object/treenoder.go#L19
-
-after that I gave up.
-
-[1]://pkg.go.dev/github.com/go-git/go-git/v5/utils/merkletrie#Changes
-[2]://pkg.go.dev/github.com/go-git/go-git/v5/plumbing/object#Changes
-
 https://github.com/go-git/go-git/issues/700
+
+looks like what I want is the `Encode` method:
+
+https://godocs.io/github.com/go-git/go-git/v5/plumbing/format/diff#UnifiedEncoder.Encode
+
+which requires the `Patch` interface:
+
+https://godocs.io/github.com/go-git/go-git/v5/plumbing/format/diff#Patch
+
+which is implemented by `object.Patch`:
+
+https://godocs.io/github.com/go-git/go-git/v5/plumbing/object#Patch
+
+assuming the following functions were exported, we could call
+`diffStagingWithWorktree`:
+
+<https://github.com/go-git/go-git/blob/7e345bb5/worktree_status.go#L116>
+
+then call `newChanges`:
+
+<https://github.com/go-git/go-git/blob/7e345bb5/plumbing/object/change_adaptor.go#L50>
+
+then call `Patch`:
+
+https://github.com/go-git/go-git/blob/7e345bb5/plumbing/object/change.go#L149
+
+until those functions are exported, the `Patch` interface has to be manually
+implemented. I found some such code here:
+
+https://github.com/fhs/gig/blob/dd59dc92/cli/diff.go#L181-L187
