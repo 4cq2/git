@@ -1,48 +1,58 @@
 # Blog
 
-## Byron/gitoxide
-
-unrecognized subcommand 'clone'
-
-the README:
-
-https://github.com/Byron/gitoxide/blob/main/README.md
-
-shows this command:
-
 ~~~
-gix clone https://github.com/Byron/gitoxide gitoxide-clones-itself
+git client language:go NOT github
+
+git client pushed:>2022-03-05 stars:>0 NOT github
 ~~~
 
-but if I try that command, it fails:
+## DonutLaser/gitgud
 
-~~~
-error: unrecognized subcommand 'clone'
+git clone
 
-Usage: gix.exe [OPTIONS] <COMMAND>
+is it supported?
 
-For more information, try '--help'.
-~~~
-
-I built `gix` just now using the `main` branch.
-
-https://github.com/Byron/gitoxide/issues/745
+https://github.com/DonutLaser/gitgud/issues/1
 
 ## Nivl/git-go
 
-git clone
+no git clone
 
-is it supported?
+https://github.com/Nivl/git-go
 
-https://github.com/Nivl/git-go/issues/203
+## OLUWAMUYIWA/got
+
+Windows
+
+If I try to build, I get this:
+
+~~~
+got-main\cli> go build
+go: downloading github.com/hexops/gotextdiff v1.0.3
+go: downloading golang.org/x/sys v0.0.0-20211216021012-1d35b9e2eb4e
+# github.com/OLUWAMUYIWA/got/pkg
+..\pkg\index.go:153:17: undefined: unix.Stat_t
+..\pkg\index.go:154:13: undefined: unix.Stat
+..\pkg\index.go:169:17: undefined: unix.Stat_t
+..\pkg\index.go:170:13: undefined: unix.Stat
+..\pkg\index.go:177:32: undefined: unix.Stat_t
+~~~
+
+https://github.com/OLUWAMUYIWA/got/issues/1
 
 ## amirkhaki/kit
 
+no git clone
+
+https://github.com/amirkhaki/kit
+
+## as/git
+
 git clone
 
 is it supported?
 
-https://github.com/amirkhaki/kit/issues/1
+https://github.com/as/git/issues/1
 
 ## blurfx/minigit
 
@@ -50,7 +60,7 @@ git clone
 
 is it supported?
 
-https://github.com/blurfx/minigit/issues/1
+https://github.com/blurfx/minigit/issues/2
 
 ## chrisdickinson/git-rs
 
@@ -58,7 +68,7 @@ git clone
 
 Is it possible to `git clone` with this package?
 
-https://github.com/chrisdickinson/git-rs/issues/12
+https://github.com/chrisdickinson/git-rs/issues/13
 
 ## driusan/dgit
 
@@ -127,29 +137,21 @@ not defined:
 
 <https://git-scm.com/docs/gitcredentials#_requesting_credentials>
 
-https://github.com/git-for-windows/git/issues/4301
+https://github.com/git-for-windows/git
 
 ## gogs/git-module
 
-clarify project purpose
+just a wrapper for the command line Git tool:
 
-I think it should be more clear that this package is just a wrapper for the
-command line Git tool:
-
-https://github.com/gogs/git-module/blob/7f9509a611f7bd3bba64aacbb78b9c00137bb144/repo.go#L127-L142
-
-the current description "Git access through shell commands", someone could
-think that the "shell commands" are provided by this module itself
-
-https://github.com/gogs/git-module/issues/91
+https://github.com/gogs/git-module/blob/7f9509a6/repo.go#L127-L142
 
 ## izhujiang/gogit
 
 finish remote functions
 
-https://github.com/izhujiang/gogit/blob/f0cb8bc16f433481f54a382dd1505ad44d6571b5/api/remote.go#L5-L20
+https://github.com/izhujiang/gogit/blob/f0cb8bc1/api/remote.go#L5-L20
 
-https://github.com/izhujiang/gogit/issues/1
+https://github.com/izhujiang/gogit/issues/2
 
 ## jelmer/dulwich
 
@@ -190,7 +192,7 @@ Traceback (most recent call last):
 KeyError: b'HEAD'
 ~~~
 
-https://github.com/jelmer/dulwich/issues/1147
+https://github.com/jelmer/dulwich/issues/1153
 
 ## samrat/rug
 
@@ -198,7 +200,15 @@ archive repo
 
 can you please archive repo, to signify it is no longer being worked on
 
-https://github.com/samrat/rug/issues/5
+https://github.com/samrat/rug/issues/6
+
+## sba1/simplegit
+
+release
+
+It would be helpful if builds were available for a couple of platforms
+
+https://github.com/sba1/simplegit/issues/52
 
 ## ssrathi/gogit
 
@@ -206,7 +216,7 @@ git clone
 
 is it supported?
 
-https://github.com/ssrathi/gogit/issues/3
+https://github.com/ssrathi/gogit/issues/4
 
 ## sunshine69/gogit
 
@@ -221,4 +231,4 @@ M readme.md
 > gitg diff
 ~~~
 
-https://github.com/sunshine69/gogit/issues/1
+https://github.com/sunshine69/gogit
