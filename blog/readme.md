@@ -1,10 +1,24 @@
 # Blog
 
-~~~
-git client language:go NOT github
+## Byron/gitoxide
 
-git client pushed:>2022-03-05 stars:>0 NOT github
+so is diff command currently available or not? I tried these:
+
 ~~~
+> gix diff
+error: unrecognized subcommand 'diff'
+
+> ein diff
+error: unrecognized subcommand 'diff'
+~~~
+
+build command:
+
+~~~
+cargo build --no-default-features --features max-pure
+~~~
+
+https://github.com/Byron/gitoxide/discussions/657
 
 ## DonutLaser/gitgud
 
@@ -39,6 +53,28 @@ go: downloading golang.org/x/sys v0.0.0-20211216021012-1d35b9e2eb4e
 ~~~
 
 https://github.com/OLUWAMUYIWA/got/issues/1
+
+## TenzonUltra/Git-Client
+
+git clone
+
+does this tool support `git clone`?
+
+https://github.com/TenzonUltra/Git-Client/issues/1
+
+## abentley/oaf
+
+Windows
+
+~~~
+error[E0433]: failed to resolve: could not find `unix` in `os`
+  --> src\commands.rs:25:14
+   |
+25 | use std::os::unix::process::CommandExt;
+   |              ^^^^ could not find `unix` in `os`
+~~~
+
+https://github.com/abentley/oaf/issues/60
 
 ## amirkhaki/kit
 
@@ -107,6 +143,14 @@ so not only is it not pure Go, but its calling an external executable. and to
 top it off, it fails without error.
 
 https://github.com/driusan/dgit/blob/f39f0c15/git/hashdiff.go#L81
+
+## farkon00/pagit
+
+git clone
+
+is it supported?
+
+https://github.com/farkon00/pagit/issues/1
 
 ## git-for-windows/git
 
@@ -194,6 +238,12 @@ KeyError: b'HEAD'
 
 https://github.com/jelmer/dulwich/issues/1153
 
+## julien040/gut
+
+wrapper for Git
+
+https://github.com/julien040/gut
+
 ## samrat/rug
 
 archive repo
@@ -232,3 +282,19 @@ M readme.md
 ~~~
 
 https://github.com/sunshine69/gogit
+
+## sushruth13/Git-client
+
+remove target folder
+
+<https://github.com/sushruth13/Git-client/tree/main/rust_git_client/target>
+
+https://github.com/sushruth13/Git-client/issues/7
+
+## tcluri/gitpy
+
+git clone
+
+is it supported?
+
+https://github.com/tcluri/gitpy/issues/1

@@ -1,5 +1,10 @@
 # Git
 
+> Everyone carries a shadow, and the less it is embodied in the individual’s
+> conscious life, the blacker and denser it is.
+>
+> Carl Jung
+
 Git implementation
 
 1. [x] git clone
