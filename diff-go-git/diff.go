@@ -8,8 +8,6 @@ import (
 
 type chunk struct{}
 
-var _ diff.Chunk = chunk{}
-
 func (chunk) Content() string {
    return ""
 }
@@ -19,8 +17,6 @@ func (chunk) Type() diff.Operation {
 }
 
 type file struct{}
-
-var _ diff.File = file{}
 
 func (file) Hash() plumbing.Hash {
    return [20]byte{}
@@ -36,8 +32,6 @@ func (file) Path() string {
 
 type file_patch struct{}
 
-var _ diff.FilePatch = file_patch{}
-
 func (file_patch) Chunks() []diff.Chunk {
    return nil
 }
@@ -51,8 +45,6 @@ func (file_patch) IsBinary() bool {
 }
 
 type patch struct{}
-
-var _ diff.Patch = patch{}
 
 func (patch) FilePatches() []diff.FilePatch {
    return nil
