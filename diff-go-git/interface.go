@@ -6,28 +6,18 @@ import (
    "github.com/go-git/go-git/v5/plumbing/format/diff"
 )
 
-type chunk struct{}
-
 func (chunk) Content() string {
    return ""
 }
 
-func (chunk) Type() diff.Operation {
-   return 0
-}
+type patch struct{}
 
-type file struct{}
-
-func (file) Hash() plumbing.Hash {
-   return [20]byte{}
-}
-
-func (file) Mode() filemode.FileMode {
-   return 0
-}
-
-func (file) Path() string {
+func (patch) Message() string {
    return ""
+}
+
+func (patch) FilePatches() []diff.FilePatch {
+   return nil
 }
 
 type file_patch struct{}
@@ -44,12 +34,22 @@ func (file_patch) IsBinary() bool {
    return false
 }
 
-type patch struct{}
+type chunk struct{}
 
-func (patch) FilePatches() []diff.FilePatch {
-   return nil
+func (chunk) Type() diff.Operation {
+   return 0
 }
 
-func (patch) Message() string {
+type file struct{}
+
+func (file) Hash() plumbing.Hash {
+   return [20]byte{}
+}
+
+func (file) Mode() filemode.FileMode {
+   return 0
+}
+
+func (file) Path() string {
    return ""
 }
